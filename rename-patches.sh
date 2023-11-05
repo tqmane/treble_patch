@@ -9,7 +9,7 @@ rename_patch() {
 	tree="$1"
 
 	for project in $(
-		cd $croot_dir/treble_build_evo/patches/$tree
+		cd $croot_dir/treble_patch/patches/$tree
 		echo *
 	); do
 		p="$(tr _ / <<<$project | sed -e 's;platform/;;g')"
