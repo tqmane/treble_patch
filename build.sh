@@ -29,13 +29,6 @@ applyPatches() {
     echo "--> Applying patches"
     bash $BL/apply-patches.sh .
     echo
-
-    echo "--> Generating makefiles"
-    cp $BL/evo.mk ./device/phh/treble/
-    pushd ./device/phh/treble/ &>/dev/null
-      bash generate.sh evo
-    popd &>/dev/null
-    echo
 }
 
 applyPatches
