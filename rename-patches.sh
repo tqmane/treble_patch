@@ -31,6 +31,4 @@ rename_patch() {
 		popd &>/dev/null
 	done
 }
-rename_patch pre
 rename_patch trebledroid
-rename_patch misc
