@@ -21,7 +21,4 @@ revert() {
 		popd &>/dev/null
 	done
 }
-revert pre
 revert trebledroid
-revert misc
-revert mini
