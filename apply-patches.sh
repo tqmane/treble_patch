@@ -24,6 +24,4 @@ apply() {
 		popd &>/dev/null
 	done
 }
-apply pre
 apply trebledroid
-apply misc
