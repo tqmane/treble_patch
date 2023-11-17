@@ -3,9 +3,8 @@
 set -e
 
 croot_dir="$(readlink -f -- $1)"
-"$croot_dir"/treble_patch/revert-patches.sh $croot_dir
 
-apply() {
+revert() {
 	tree="$1"
 
 	for project in $(
@@ -17,12 +16,10 @@ apply() {
 		[ "$p" == treble/app ] && p=treble_app
 		[ "$p" == vendor/hardware/overlay ] && p=vendor/hardware_overlay
 		pushd $p &>/dev/null
-		for patch in $croot_dir/treble_patch/patches/$tree/$project/*.patch; do
-      echo "___file: $patch"
-			git am $patch || exit
-		done
+    git am --abort &>/dev/null || true
+		git reset --hard FETCH_HEAD
 		popd &>/dev/null
 	done
 }
-apply trebledroid
-apply personal
+revert trebledroid
+revert personal

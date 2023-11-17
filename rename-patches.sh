@@ -5,7 +5,7 @@ set -e
 croot_dir="$(readlink -f -- $1)"
 "$croot_dir"/treble_patch/revert-patches.sh $croot_dir
 
-apply() {
+rename_patch() {
 	tree="$1"
 
 	for project in $(
@@ -16,13 +16,20 @@ apply() {
 		[ "$p" == build ] && p=build/make
 		[ "$p" == treble/app ] && p=treble_app
 		[ "$p" == vendor/hardware/overlay ] && p=vendor/hardware_overlay
+    patch_counter=0
 		pushd $p &>/dev/null
 		for patch in $croot_dir/treble_patch/patches/$tree/$project/*.patch; do
       echo "___file: $patch"
 			git am $patch || exit
+      patch_counter++
 		done
+    # generate patches name
+    if [[ $patch_counter -gt 0 ]]; then
+      rm -rf $croot_dir/treble_patch/patches/$tree/$project/*
+      git format-patch -o "$croot_dir/treble_patch/patches/$tree/$project/" HEAD~$patch_counter
+    fi
 		popd &>/dev/null
 	done
 }
-apply trebledroid
-apply personal
+rename_patch trebledroid
+rename_patch personal
